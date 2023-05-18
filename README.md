@@ -1,1 +1,1 @@
-# -shopping_list_in_JS
+basic shoppig list written on JavaScript
