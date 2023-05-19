@@ -24,6 +24,7 @@ function addItem(e) {
 
         newItem.value = ''
     }
+    checkUI()
 }
 
 
@@ -44,18 +45,57 @@ function createicon(classes) {
 
 function removeItem(e) {
     if (e.target.parentElement.classList.contains('remove-item')) {
-        e.target.parentElement.parentElement.remove()
+        if(confirm('Are you sure')) {
+            e.target.parentElement.parentElement.remove()
+            checkUI()
+        }
     }
+    
 }
 
- 
 function clearItems() {
-    while (itemList.firstChild) {
-        itemList.removeChild(itemList.firstChild)
+    itemList.innerHTML = ''
+
+    checkUI()
+}
+
+function checkUI() {
+    const items = itemList.querySelectorAll('li')
+    if (items.length === 0) {
+        itemFilter.style.display = 'none'
+        clearBtn.style.display = 'none'
+    } else {
+        itemFilter.style.display = 'block'
+        clearBtn.style.display = 'block'
     }
+
+    
+
+}
+
+function filterItem(e) {
+    const items = itemList.querySelectorAll('li')
+    const text = e.target.value.toLowerCase()
+
+    items.forEach((item) => {
+        const itemName = item.firstChild.textContent.toLowerCase()
+
+        if (itemName.indexOf(text) != -1) {
+            item.style.display = 'flex'
+        } else {
+            item.style.display = 'none'
+        }
+    })
 }
 
 
 itemForm.addEventListener('submit', addItem)
 itemList.addEventListener('click', removeItem)
 clearBtn.addEventListener('click', clearItems)
+itemFilter.addEventListener('input', filterItem)
+
+checkUI()
+filterItem()
+
+
+
